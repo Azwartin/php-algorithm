@@ -1,33 +1,19 @@
 <?php
-//connect to tcp server on $address:$port 
+
+//run cli tcp client to $address:$port 
 //usage php client.php 127.0.0.1 9090
+require __DIR__ . '/vendor/autoload.php';
+
+use rnagaev\net\client\Client;
+use rnagaev\net\logger\EchoLogger;
+use rnagaev\net\client\TerminalIO;
+use rnagaev\net\client\SigObserver;
+
 $address = $argv[1] ?? "127.0.0.1";
 $port = $argv[2] ?? 9092;
-$addrinfo = socket_addrinfo_lookup($address, $port);
-if (!$addrinfo) {
-    echo "Cannot connect to $address:$port\n";
-    return;
-}
 
-$socket = socket_addrinfo_connect($addrinfo[0]);
-if (!$socket) {
-    echo "Cannot connect to $address:$port\n";
-    return;
-}
-
-while(true) {
-    $msg = readline("Command:");
-    if (socket_write($socket, $msg) === false) {
-        echo "Connection close\n";
-        break;
-    }
-
-    $msg = socket_read($socket, 1024);
-    if ($msg === false) {
-        echo "Connection close\n";
-        break;
-    }
-    echo "Server:\n$msg\n";
-}
-
-socket_close($socket);
+$io = new TerminalIO();
+$client = new Client($io, $io);
+$logger = new EchoLogger();
+$client->setLogger($logger);
+$client->connect($address, $port);

@@ -1,0 +1,14 @@
+{
+    "name": "rnagaev/net",
+    "description": "php net test",
+    "authors": [
+        {
+            "name": "Nagaev",
+            "email": "azwartin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"rnagaev\\net\\": "./"}
+    },
+    "require": {}
+}
