@@ -32,10 +32,9 @@ class Math
 
     protected static function qsearch(array &$arr, int $k, int $start, int $end): void
     {
-        if ($start >= $end || $k > $end || $k - 1 < $start) {
+        if ($start >= $end || ($k > $end && $k - 1 < $start)) {
             return;
         }
-
         $l = $start; 
         $r = $end;
         $pivot = $arr[$start];
